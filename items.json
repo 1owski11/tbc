@@ -1,0 +1,86 @@
+[
+    {
+        "id": 1,
+        "name": "Blademail",
+        "price": "21.00",
+        "desc": "A razor-sharp coat of mail, it is the choice of selfless martyrs in combat.",
+        "img": "data/blademail.png"
+    },
+    {
+        "id": 2,
+        "name": "Blink Dagger",
+        "price": "22.50",
+        "desc": "The fabled dagger used by the fastest assassin ever to walk the lands.",
+        "img": "data/blink.png"
+    },
+    {
+        "id": 3,
+        "name": "Shadow Amulet",
+        "price": "10.00",
+        "desc": "A small talisman that clouds the senses of one's enemies when held perfectly still.",
+        "img": "data/shadowa.png"
+    },
+    {
+        "id": 4,
+        "name": "Power Threads",
+        "price": "14.00",
+        "desc": "A pair of tough-skinned boots that change to meet the demands of the wearer.",
+        "img": "data/pt.png"
+    },
+    {
+        "id": 5,
+        "name": "Mask Of Madness",
+        "price": "19.00",
+        "desc": "Once this mask is worn, its bearer becomes an uncontrollable aggressive force.",
+        "img": "data/mom.png"
+    },
+    {
+        "id": 6,
+        "name": "Aghanim's Scepter",
+        "price": "42.00",
+        "desc": "The scepter of a wizard with demigod-like powers.",
+        "img": "data/agan.png"
+    },
+    {
+        "id": 7,
+        "name": "Scythe Of Vyse",
+        "price": "52.00",
+        "desc": "The most guarded relic among the cult of Vyse, it is the most coveted weapon among magi.",
+        "img": "data/scy.png"
+    },
+    {
+        "id": 8,
+        "name": "Orchid Malevolence",
+        "price": "32.75",
+        "desc": "A garnet rod constructed from the essence of a fire demon.",
+        "img": "data/orchid.png"
+    },
+    {
+        "id": 9,
+        "name": "Assault Cuirass",
+        "price": "52.25",
+        "desc": "Forged in the depths of the nether reaches, this hellish mail provides an army with increased armor and attack speed.",
+        "img": "data/ac.png"
+    },
+    {
+        "id": 10,
+        "name": "Heart Of Tarrasque",
+        "price": "52.00",
+        "desc": "Preserved heart of an extinct monster, it bolsters the bearer's fortitude.",
+        "img": "data/tar.png"
+    },
+    {
+        "id": 11,
+        "name": "Divine Rapier",
+        "price": "56.00",
+        "desc": "So powerful, it cannot have a single owner.",
+        "img": "data/r.png"
+    },
+    {
+        "id": 12,
+        "name": "Daedalus",
+        "price": "51.00",
+        "desc": "A weapon of incredible power that is difficult for even the strongest of warriors to control.",
+        "img": "data/d.png"
+    }
+]

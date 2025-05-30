@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Secret Shop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="home.css">
+    <link rel="icon" href="data/dota2.png" type="image/x-icon">
+    <script src="sounds.js"></script>
+</head>
+
+<body>
+    <audio id="hover-sound" src="data/hover.mpeg" preload="auto"></audio>
+    <audio id="background-music" src="data/dotab.m4a" loop></audio>
+    <video autoplay muted loop id="background-video">
+        <source src="data/dota2b.mp4" type="video/mp4">
+    </video>
+    <section class="header">
+        <nav>
+            <a class="hover-text" href="home.html"><img src="data/dota2.png"></a>
+            <div class="nav-links" id="nav-links">
+                <img src="data/cross.png" class="icon" onclick="hide_menu()">
+                <ul>
+                    <li><a class="hover-text" href="home.html">Home</a></li>
+                    <li><a class="hover-text" href="items.html">Items</a></li>
+                    <li><a class="hover-text" href="about.html">About us</a></li>
+                    <li><a class="hover-text" href="contacts.html">Contacts</a></li>
+                    <li><a class="hover-text" href="user.html"><img src="data/user.png" class="user"></a></li>
+                    <li><a class="hover-text" href="courier.html"><img src="data/courier.png" class="courier"></a></li>
+                </ul>
+            </div>
+            <img src="data/menu.png" class="icon" onclick="show_menu()">
+        </nav>
+        <div class="text-box">
+            <h1>The secret shop</h1>
+            <form id="form">
+                <input class="search-input" type="search" id="findts" placeholder="What do you want, stranger?"
+                    autocomplete="off">
+            </form>
+        </div>
+    </section>
+    <script>
+        const texts = document.querySelectorAll('.hover-text');
+        const sound = document.getElementById('hover-sound');
+
+        texts.forEach(text => {
+            text.addEventListener('mouseenter', () => {
+                sound.currentTime = 0;
+                sound.volume = 0.15;
+                sound.play();
+            });
+        });
+
+        document.addEventListener('click', function () {
+            const music = document.getElementById('background-music');
+            music.volume = 0.1;
+            music.play();
+        }, { once: true });
+
+        var nav_links = document.getElementById("nav-links");
+
+        function show_menu() {
+            nav_links.style.right = "0";
+        }
+
+        function hide_menu() {
+            nav_links.style.right = "-200px";
+            nav_links.style.visibility = "false";
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById("form");
+            const sb = document.getElementById("findts");
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const query = sb.value;
+
+                const hurl = `items.html?q=${encodeURIComponent(query)}`;
+                window.location.href = hurl;
+            });
+        });
+    </script>
+</body>
+
+</html>

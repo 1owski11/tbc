@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Secret Shop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="items.css">
+    <link rel="icon" href="data/dota2.png" type="image/x-icon">
+    <script src="sounds.js"></script>
+</head>
+
+<body>
+    <audio id="hover-sound" src="data/hover.mpeg" preload="auto"></audio>
+    <audio id="background-music" src="data/items.m4a" loop></audio>
+    <video autoplay muted loop id="background-video">
+        <source src="data/items.mp4" type="video/mp4">
+    </video>
+    <section class="header">
+        <nav>
+            <a class="hover-text" href="home.html"><img src="data/dota2.png"></a>
+            <div class="nav-links" id="nav-links">
+                <img src="data/cross.png" class="icon" onclick="hide_menu()">
+                <ul>
+                    <li><a class="hover-text" href="home.html">Home</a></li>
+                    <li><a class="hover-text" href="items.html">Items</a></li>
+                    <li><a class="hover-text" href="about.html">About us</a></li>
+                    <li><a class="hover-text" href="contacts.html">Contacts</a></li>
+                    <li><a class="hover-text" href="user.html"><img src="data/user.png" alt="" class="user"></a></li>
+                    <li><a class="hover-text" href="courier.html"><img src="data/courier.png" alt=""
+                                class="courier"></a></li>
+                </ul>
+            </div>
+            <img src="data/menu.png" alt="" class="icon" onclick="show_menu()">
+        </nav>
+        <div class="s-container">
+            <h1 class="title-items">Items</h1>
+            <form action="">
+                <input class="search-input" type="search" id="findts" placeholder="What do you want, stranger?"
+                    autocomplete="off">
+            </form>
+        </div>
+        <div class="s-container" id="tbl">
+
+        </div>
+    </section>
+    <script>
+        const texts = document.querySelectorAll('.hover-text');
+        const sound = document.getElementById('hover-sound');
+
+        texts.forEach(text => {
+            text.addEventListener('mouseenter', () => {
+                sound.currentTime = 0;
+                sound.volume = 0.15;
+                sound.play();
+            });
+        });
+
+        document.addEventListener('click', function () {
+            const music = document.getElementById('background-music');
+            music.volume = 0.1;
+            music.play();
+        }, { once: true });
+
+        var nav_links = document.getElementById("nav-links");
+
+        function show_menu() {
+            nav_links.style.right = "0";
+        }
+
+        function hide_menu() {
+            nav_links.style.right = "-200px";
+            nav_links.style.visibility = "false";
+        }
+    </script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const item_list = document.getElementById("tbl");
+        const sb = document.getElementById("findts");
+        const request = params.get('q');
+        let items = [];
+
+        document.getElementById("findts").value = request;
+
+        const load_items = async () => {
+            const res = await fetch('./items.json');
+            items = await res.json();
+
+            const search_res = sb.value.toLowerCase();
+            const filtered_items = items.filter((item) => {
+                return (
+                    item.name.toLowerCase().includes(search_res)
+                );
+            });
+
+            display_items(filtered_items);
+        };
+
+        const display_items = (items) => {
+            const htmlString = items
+                .map((items) => {
+                    return `
+                        <div class="col-4">
+                            <a href="item_details.html?nm=${items.name}&price=${items.price}&desc=${items.desc}&img=${items.img}&id=${items.id}">
+                                <img src="${items.img}" alt="">
+                                <h4>${items.name}</h4>
+                                <p>$${items.price}</p>
+                            </a>
+                        </div>
+                        `;
+                })
+                .join('');
+            item_list.innerHTML = htmlString;
+        };
+
+        load_items();
+
+        sb.addEventListener('keyup', (e) => {
+            const search_res = e.target.value.toLowerCase();
+            const filtered_items = items.filter((item) => {
+                return (
+                    item.name.toLowerCase().includes(search_res)
+                );
+            });
+            display_items(filtered_items);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Secret Shop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="courier.css">
+        <link rel="icon" href="data/dota2.png" type="image/x-icon">
+    </head>
+    <body>
+        <audio id="hover-sound" src="data/hover.mpeg" preload="auto"></audio>
+        <audio id="hover-sound-item" src="data/pickup.mpeg" preload="auto"></audio>
+        <audio id="background-music" src="data/items.m4a" loop></audio>
+        <video autoplay muted loop id="background-video">
+            <source src="data/items.mp4" type="video/mp4">
+        </video>
+        <section class="header">
+            <nav>
+                <a class="hover-text" href="home.html"><img src="data/dota2.png" alt=""></a>
+                <div class="nav-links" id="nav-links">
+                    <img src="data/cross.png" alt="" class="icon" onclick="hide_menu()">
+                    <ul>
+                        <li><a class="hover-text" href="home.html">Home</a></li>
+                        <li><a class="hover-text" href="items.html">Items</a></li>
+                        <li><a class="hover-text" href="about.html">About us</a></li>
+                        <li><a class="hover-text" href="contacts.html">Contacts</a></li>
+                        <li><a class="hover-text" href="user.html"><img src="data/user.png" alt="" class="user"></a></li>
+                        <li><a class="hover-text" href="courier.html"><img src="data/courier.png" alt="" class="courier"></a></li>
+                    </ul>
+                </div>
+                <img src="data/menu.png" alt="" class="icon" onclick="show_menu()">
+            </nav>
+            <div class="s-container cart-page" id="cart-page">
+                <h1 id="empty">The Courier is empty</h1>
+                <table id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-body">
+
+                    </tbody>
+                </table>
+                <div class="total-price" id="tbl-footer">
+                    <table>
+                        <tr>
+                            <td>Subtotal</td>
+                            <td id="sub-price"></td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td id="tax-price"></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td id="total-price"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <script>
+            const texts = document.querySelectorAll('.hover-text');
+            const sound = document.getElementById('hover-sound');
+
+            texts.forEach(text => {
+                text.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0;
+                    sound.volume = 0.15;
+                    sound.play();
+                });
+            });
+
+            document.addEventListener('click', function() {
+                const music = document.getElementById('background-music');
+                music.volume = 0.15;
+                music.play();
+            }, { once: true });
+
+            var nav_links = document.getElementById("nav-links");
+
+            function show_menu() {
+                nav_links.style.right = "0";
+            }
+
+            function hide_menu() {
+                nav_links.style.right = "-200px";
+                nav_links.style.visibility = "false";
+            }
+
+            const CART_KEY = '13373228courier';
+
+            function render_courier() {
+                const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+
+                const cart_body = document.getElementById("cart-body");
+                const total = document.getElementById("total-price");
+                const sub = document.getElementById("sub-price");
+                const tax = document.getElementById("tax-price");
+                const tbl = document.getElementById("tbl");
+                const tbl_footer = document.getElementById("tbl-footer");
+                const h1 = document.getElementById("empty");
+                const c_page = document.getElementById("cart-page");
+
+                cart_body.innerHTML = '';
+                let fin_price = 0;
+                let sub_price = 0;
+                let tax_price = 0;
+
+                if (cart.length === 0) {
+                    tbl.style.display = "none";
+                    tbl_footer.style.display = "none";
+                    c_page.style.display = "block";
+                    c_page.style.textAlign = "center";
+                    h1.style.display = "block";
+                    h1.style.fontSize = "clamp(15px, 9vh, 80px)";
+                } else {
+                    cart.forEach(item => {
+                    const price = parseFloat(item.price);
+                    const item_total_price = price * item.quantity;
+                    sub_price += item_total_price;
+
+                    const row = cart_body.insertRow();
+
+                    row.innerHTML = `
+                        <td>
+                            <div class="cart-info">
+                                <img src="${item.img}">
+                                <div class="desc">
+                                    <p>${item.name}</p>
+                                    <small>Price: $${item.price}</small>
+                                    <br>
+                                    <a href="#" data-product-id="${item.id}" class="remove-btn">Remove</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td><input type="number" value="${item.quantity}" min="1" class="item-quantity" data-product-id="${item.id}"></td>
+                        <td class="item-price">$${item_total_price.toFixed(2)}</td>
+                    `;
+
+                });
+
+                sub.textContent = `$${sub_price.toFixed(2)}`;
+
+                tax_price = 0.15 * sub_price;
+                tax.textContent = `$${tax_price.toFixed(2)}`;
+
+                fin_price = sub_price + tax_price;
+                total.textContent = `$${fin_price.toFixed(2)}`;
+                }
+            }
+
+            function remove_item(productId) {
+                let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+                cart = cart.filter(item => String(item.id) !== String(productId));
+                localStorage.setItem(CART_KEY, JSON.stringify(cart));
+                render_courier();
+            }
+
+            function quantity_update(productId, new_quantity) {
+                let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+                const itemIndex = cart.findIndex(item => item.id.toString() === productId.toString());
+
+                if(itemIndex > -1) {
+                    if(new_quantity > 0) {
+                        cart[itemIndex].quantity = new_quantity;
+                    } else {
+                        cart.splice(itemIndex, 1);
+                    }
+                    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+                    render_courier();
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                render_courier();
+
+                const cart_body = document.getElementById("cart-body");
+
+                cart_body.addEventListener('click', function(event){
+                    if (event.target.classList.contains('remove-btn')) {
+                        event.preventDefault();
+                        const productId = event.target.dataset.productId;
+                        remove_item(productId);
+                    }
+                });
+
+                cart_body.addEventListener('change', function(event) {
+                    if (event.target.classList.contains('item-quantity')) {
+                        const productId = event.target.dataset.productId;
+                        const new_quantity = parseInt(event.target.value);
+                        quantity_update(productId, new_quantity)
+                    }
+                });
+            });
+        </script>
+    </body>
+</html> 

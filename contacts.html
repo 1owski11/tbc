@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Secret Shop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="contacts.css">
+        <link rel="icon" href="data/dota2.png" type="image/x-icon">
+    </head>
+    <body>
+        <audio id="hover-sound" src="data/hover.mpeg" preload="auto"></audio>
+        <audio id="background-music" src="data/dotab.m4a" loop></audio>
+        <video autoplay muted loop id="background-video">
+            <source src="data/dota2b.mp4" type="video/mp4">
+        </video>
+        <section class="header">
+            <nav>
+                <a class="hover-text" href="home.html"><img src="data/dota2.png" alt=""></a>
+                <div class="nav-links" id="nav-links">
+                    <img src="data/cross.png" alt="" class="icon" onclick="hide_menu()">
+                    <ul>
+                        <li><a class="hover-text" href="home.html">Home</a></li>
+                        <li><a class="hover-text" href="items.html">Items</a></li>
+                        <li><a class="hover-text" href="about.html">About us</a></li>
+                        <li><a class="hover-text" href="contacts.html">Contacts</a></li>
+                        <li><a class="hover-text" href="user.html"><img src="data/user.png" alt="" class="user"></a></li>
+                        <li><a class="hover-text" href="courier.html"><img src="data/courier.png" alt="" class="courier"></a></li>
+                    </ul>
+                </div>
+                <img src="data/menu.png" alt="" class="icon" onclick="show_menu()">
+            </nav>
+            <h1 class="title-contacts">Contacts</h1>
+            <div class="s-container">
+                <h4 class="col-2">Phone number: </h4>
+                <h4 class="col-2 right"><a href="#">+998 90 931 91 41</a></h4>
+                <h4 class="col-2">Email: </h4>
+                <h4 class="col-2 right"><a href="#">iksdgame@gmail.com</a></h4>
+                <h4 class="col-2">Steam username: </h4>
+                <h4 class="col-2 right"><a href="https://steamcommunity.com/id/thefiam/" target="_blank">pathetic.</a></h4>
+                <h4 class="col-2">GitHub username: </h4>
+                <h4 class="col-2 right"><a href="https://github.com/1owski11" target="_blank">1owski11</a></h4>
+            </div>
+        </section>
+        <script>
+            const texts = document.querySelectorAll('.hover-text');
+            const sound = document.getElementById('hover-sound');
+
+            texts.forEach(text => {
+                text.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0;
+                    sound.volume = 0.15;
+                    sound.play();
+                });
+            });
+
+            document.addEventListener('click', function() {
+                const music = document.getElementById('background-music');
+                music.volume = 0.3;
+                music.play();
+            }, { once: true });
+
+            var nav_links = document.getElementById("nav-links");
+
+            function show_menu() {
+                nav_links.style.right = "0";
+            }
+
+            function hide_menu() {
+                nav_links.style.right = "-200px";
+                nav_links.style.visibility = "false";
+            }
+        </script>
+    </body>
+</html> 

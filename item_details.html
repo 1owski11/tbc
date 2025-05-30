@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Secret Shop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="items.css">
+    <link rel="icon" href="data/dota2.png" type="image/x-icon">
+    <script src="sounds.js"></script>
+</head>
+
+<body>
+    <audio id="hover-sound" src="data/hover.mpeg" preload="auto"></audio>
+    <audio id="hover-sound-item" src="data/pickup.mpeg" preload="auto"></audio>
+    <audio id="background-music" src="data/items.m4a" loop></audio>
+    <video autoplay muted loop id="background-video">
+        <source src="data/items.mp4" type="video/mp4">
+    </video>
+    <section class="header">
+        <nav>
+            <a class="hover-text" href="home.html"><img src="data/dota2.png" alt=""></a>
+            <div class="nav-links" id="nav-links">
+                <img src="data/cross.png" alt="" class="icon" onclick="hide_menu()">
+                <ul>
+                    <li><a class="hover-text" href="home.html">Home</a></li>
+                    <li><a class="hover-text" href="items.html">Items</a></li>
+                    <li><a class="hover-text" href="about.html">About us</a></li>
+                    <li><a class="hover-text" href="contacts.html">Contacts</a></li>
+                    <li><a class="hover-text" href="user.html"><img src="data/user.png" alt="" class="user"></a></li>
+                    <li><a class="hover-text" href="courier.html"><img src="data/courier.png" alt=""
+                                class="courier"></a></li>
+                </ul>
+            </div>
+            <img src="data/menu.png" alt="" class="icon" onclick="show_menu()">
+        </nav>
+        <div class="s-container single-product">
+            <div class="col-2">
+                <img src="data/shadowa.webp" width="100%" id="p-image">
+            </div>
+            <div class="col-2">
+                <p>Home / Artifacts</p>
+                <h1 id="p-name">Shadow Amulet</h1>
+                <h3 class="price" id="p-price">$10.00</h3>
+                <input type="number" value="1" name="" id="quan">
+                <a href="#" class="btn" onclick="add_to_cart()">Add To Courier</a>
+                <h3>Product Details</h3>
+                <br>
+                <p class="desc" id="p-desc">A small talisman that clouds the senses of one's enemies when held perfectly
+                    still</p>
+            </div>
+        </div>
+    </section>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const item_name = params.get("nm");
+        const price = params.get("price");
+        const desc = params.get("desc");
+        const img = params.get("img");
+        const item_id = params.get("id");
+
+        document.getElementById("p-name").textContent = item_name;
+        document.getElementById("p-price").textContent = `$${price}`;
+        document.getElementById("p-desc").textContent = desc;
+        document.getElementById("p-image").src = img;
+
+        const texts = document.querySelectorAll('.hover-text');
+        const sound = document.getElementById('hover-sound');
+
+        texts.forEach(text => {
+            text.addEventListener('mouseenter', () => {
+                sound.currentTime = 0;
+                sound.volume = 0.15;
+                sound.play();
+            });
+        });
+
+        document.addEventListener('click', function () {
+            const music = document.getElementById('background-music');
+            music.volume = 0.1;
+            music.play();
+        }, { once: true });
+
+        var nav_links = document.getElementById("nav-links");
+
+        function show_menu() {
+            nav_links.style.right = "0";
+        }
+
+        function hide_menu() {
+            nav_links.style.right = "-200px";
+            nav_links.style.visibility = "false";
+        }
+
+        const CART_KEY = '13373228courier';
+        let current_product_4_cart = null;
+
+        function add_to_cart() {
+            const quantity = document.getElementById("quan").value;
+
+            let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            const existing_item_index = cart.findIndex(item => item.id === item_id)
+
+            if(existing_item_index > -1) {
+                cart[existing_item_index].quantity = parseInt(cart[existing_item_index].quantity) + parseInt(quantity);
+            } else {
+                cart.push({
+                    id: item_id,
+                    name: item_name,
+                    price: price,
+                    desc: desc,
+                    img: img,
+                    quantity: quantity
+                });
+            }
+
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        }
+    </script>
+    <script>
+        
+    </script>
+</body>
+
+</html>
