@@ -2,7 +2,7 @@
     font-family: 'Trajan Pro Regular';
     font-style: normal;
     font-weight: normal;
-    src: local('Trajan Pro Regular'), url('data/fonts/TrajanPro-Regular.woff') format('woff');
+    src: local('Trajan Pro Regular'), url('fonts/TrajanPro-Regular.woff') format('woff');
 }
     
 
@@ -10,14 +10,14 @@
     font-family: 'Trajan Pro Bold';
     font-style: normal;
     font-weight: normal;
-    src: local('Trajan Pro Bold'), url('data/fonts/TrajanPro-Bold.woff') format('woff');
+    src: local('Trajan Pro Bold'), url('fonts/TrajanPro-Bold.woff') format('woff');
 }
 
 @font-face {
     font-family: 'Hypatia Sans Pro Regular';
     font-style: normal;
     font-weight: normal;
-    src: local('Hypatia Sans Pro Regular'), url('data/fonts/HypatiaSansPro-Regular.woff') format('woff');
+    src: local('Hypatia Sans Pro Regular'), url('fonts/HypatiaSansPro-Regular.woff') format('woff');
 }
 
 * {
